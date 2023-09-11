@@ -1,0 +1,80 @@
+{% extends 'core/base.html' %}
+
+{% block title %}Sign up{% endblock %}
+
+{% block content %}
+<div class="w-1/2 my-6 mx-auto p-6 bg-gray-100 rounded-xl">
+    <h1 class="mb-6 text-3xl font-semibold py-4">Sign up</h1>
+
+    <form method='post' action=".">
+        {% csrf_token %}
+
+        <div class="mb-3">
+            <div class="mb-3">
+                <label class="inline-block mb-2">Username</label><br>
+                {{ form.username }}
+            </div>
+
+            <div>
+                <label class='mb-3 inline-block text-sm text-gray-600'>{{ form.accept_suggested_username.label }}</label>
+                <span>{{ form.accept_suggested_username }}</span>
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2">Email</label><br>
+                {{ form.email }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2">First name</label><br>
+                {{ form.first_name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2">Last name</label><br>
+                {{ form.last_name }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2">Password</label><br>
+                {{ form.password1 }}
+            </div>
+
+            <div class="mb-3">
+                <label class="inline-block mb-2">Repeat password</label><br>
+                {{ form.password2 }}
+            </div>
+
+            {% if form.errors or form.non_field_errors %}
+                <div class="mb-3 p-6 bg-red-100 rounded-xl">
+                    {% for field in form %}
+                        {{ field.errors }}
+                    {% endfor %}
+
+                    {{ form.non_field_errors }}
+                </div>
+            {% endif %}
+
+            <button type="submit" class="bg-cyan-500 hover:bg-cyan-700 text-white font-bold py-2 px-4 rounded mt-4">
+                Sign up
+            </button>
+        </div>
+    </form>
+</div>
+    {% block javascript %}
+    <script>
+        function acceptSuggestedName() {
+        const checkbox = document.getElementById("accept-suggested");
+        const usernameInput = document.getElementById("id_username");
+        const suggestedName = "{{ suggested_username }}";  // <-- Use the context variable here
+
+        if (checkbox.checked) {
+            usernameInput.value = suggestedName;
+        } else {
+            usernameInput.value = "";
+        }
+        }
+    </script>
+    {% endblock %}
+
+{% endblock %}
