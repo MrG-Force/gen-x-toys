@@ -5,7 +5,9 @@
 {% block content %}
     <div class="grid grid-cols-5 gap-6">
         <div class="col-span-2">
-            <img src="{{ toy.image.url }}" class="rounded-xl">
+            <img src="{% if toy.image %}
+              {{ toy.image.url }}
+            {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}" class="rounded-xl">
         </div>
         <div class="col-span-3 p-6 bg-gray-100 rounded-xl"> 
             <h1 class="mb-6 text-3xl font-bold">{{ toy.title }}</h1>
