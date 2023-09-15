@@ -16,7 +16,9 @@
             <h3 class="text-center font-semibold py-3 text-lg">{{ toy.title }}</h3>
             <a href="{% url 'toy:detail' toy.id %}">
                 <img
-                    src="{{ toy.image.url }}"
+                    src="{% if toy.image %}
+                        {{ toy.image.url }}
+                    {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}"
                     alt="{{ toy.name }}"
                     class="w-full h-64 object-scale-down"
                 />
