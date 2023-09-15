@@ -36,3 +36,15 @@ def signup(request):
         'form': form,
         'suggested_username': suggested_username,
     })
+
+def logout(request):
+    logout(request)
+    return redirect(request, 'core/index.html')
+
+def shop(request):
+    toys = Toy.objects.filter(stock__gt=0)
+    categories = Category.objects.all()
+    return render(request, 'core/shop.html', {
+        'categories': categories,
+        'toys': toys,
+    })

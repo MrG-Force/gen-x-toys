@@ -1,0 +1,41 @@
+{% extends 'core/base.html' %} 
+{% load static %} 
+{% block title %}Shop{% endblock %} 
+
+{% block extra_head %}
+  <script src="{% static 'js/shop.js' %}"></script>
+{% endblock %}
+
+{% block content %}
+<div class="mt-6 px-6 py-12 bg-gray-200">
+    <h2 class="mb-8 text-2xl text-center">Shop</h2>
+    <div class="grid grid-cols-4 gap-4">
+
+        {% for toy in toys %}
+        <div class="toy bg-white rounded-lg">
+            <h3 class="text-center font-semibold py-3 text-lg">{{ toy.title }}</h3>
+            <a href="{% url 'toy:detail' toy.id %}">
+                <img
+                    src="{{ toy.image.url }}"
+                    alt="{{ toy.name }}"
+                    class="w-full h-64 object-scale-down"
+                />
+            </a>
+            <div class="flex items-baseline place-content-evenly p-6 rounded-b-xl">
+                <p class="text-xl">${{ toy.price }}</p>
+                <span>
+                    <a
+                        href="#"
+                        data-toy-title="{{ toy.title }}"
+                        class="add-to-cart-btn inline-block mt-6 px-6 py-3 text-md font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700"
+                        >Add to cart
+                    </a>
+                </span>
+            </div>
+        </div>
+        {% endfor %}
+
+    </div>
+</div>
+{% endblock %}
+{% comment %} TODO: Add a cart page {% endcomment %}
