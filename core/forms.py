@@ -1,6 +1,6 @@
 from django import forms
 from random import choice, randint
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from faker import Faker
 
@@ -14,6 +14,14 @@ def generate_username_sample():
     random_number = fake.random_number(2)
 
     return f"{prefix}{first_name}_{color}_{random_letter}{random_number}"
+
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(max_length=30, help_text='Required', widget=forms.TextInput(attrs={
+        'placeholder': 'Your username',
+        'class': 'w-full py-4 px-6 rounded-lg'}))
+    password = forms.CharField(help_text='Required', label='Password', widget=forms.PasswordInput(attrs={
+        'placeholder': 'Our secret handshake',
+        'class': 'w-full py-4 px-6 rounded-lg'}))
 
 class SignupForm(UserCreationForm):
 
