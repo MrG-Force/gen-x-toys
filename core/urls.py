@@ -13,4 +13,6 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='core/login.html', authentication_form=LoginForm), name='login'),
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('shop/', views.shop, name='shop'),
+    path('set_category/<int:category_id>/', views.set_category_session, name='set_category_session'),
+    path('shop/get_toys_by_category/', views.get_toys_by_category, name='get_toys_by_category'),
 ]
