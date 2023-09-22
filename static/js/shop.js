@@ -1,5 +1,5 @@
 const MESSAGE_CLASSES =
-  "cart-message absolute z-150 top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-green-500 text-white p-4 rounded opacity-0 transition-all duration-700 ease-in-out";
+  "cart-message absolute z-150 top-2 left-1/2 transform -translate-x-1/2 -translate-y-full bg-blue-400 text-slate-900 font-semibold p-4 rounded opacity-0 transition-all duration-700 ease-in-out";
 
 function displayAddedToCartMessage(toyTitle) {
   const newDiv = document.createElement("div");
@@ -15,12 +15,12 @@ function displayAddedToCartMessage(toyTitle) {
 function applyTransitions(element) {
   setTimeout(() => {
     element.classList.replace("-translate-y-full", "translate-y-0");
-    element.classList.replace("opacity-0", "opacity-100");
+    element.classList.replace("opacity-0", "opacity-80");
   }, 50);
 
   setTimeout(() => {
     element.classList.replace("translate-y-0", "-translate-y-full");
-    element.classList.replace("opacity-100", "opacity-0");
+    element.classList.replace("opacity-80", "opacity-0");
     setTimeout(() => {
       element.remove();
     }, 1000);
