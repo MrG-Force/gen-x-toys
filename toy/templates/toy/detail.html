@@ -1,11 +1,15 @@
 {% extends 'core/base.html' %}
-
+{% load static %} 
 {% block title %}{{ toy.title }}{% endblock %}
+
+{% block extra_head %}
+  <script src="{% static 'js/shop.js' %}" defer></script>
+{% endblock %}
 
 {% block content %}
     <div class="grid grid-cols-5 gap-6">
-        <div class="col-span-2">
-            <img src="{% if toy.image %}
+        <div class="col-span-2 flex">
+            <img class="w-full object-scale-down" src="{% if toy.image %}
               {{ toy.image.url }}
             {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}" class="rounded-xl">
         </div>
@@ -22,16 +26,17 @@
                 {{ toy.description }}
             </p>
             {% endif %}
-            <a href="#" class="inline-block mt-6 px-6 py-3 text-lg font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700">Add to cart</a>
+            <!-- Add to Cart button -->
+            {% include 'cart\add_to_cart.html' %}
             
         </div>
     </div>
     <div class="mt-6 px-6 py-12 bg-gray-100 rounded-xl">
         <h2 class="mb-12 text-2xl text-center">Related toys</h2>
         
-        <div class="grid grid-cols-3 gap-3">
+        <div class="grid grid-cols-3 gap-5">
           {% for toy in related_toys %}
-            <div>
+            <div class="shadow-md bg-white rounded-lg">
               <a href="{% url 'toy:detail' toy.id %}">
                 <div>
                   <img
@@ -39,7 +44,7 @@
                           {{ toy.image.url }}
                       {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}"
                     alt="{{ toy.title }}"
-                    class="w-full h-64 rounded-xl"
+                    class="w-full object-scale-down h-48"
                   />
                 </div>
                 <div class="p-6 bg-white rounded-b-xl">

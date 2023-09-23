@@ -1,0 +1,8 @@
+<a
+  href="#"
+  data-toy-title="{{ toy.title }}"
+  class="add-to-cart-btn inline-block mt-6 px-6 py-3 text-md font-semibold bg-teal-500 text-white rounded-xl hover:bg-teal-700"
+  hx-get="{% url 'core:add_to_cart' toy.id %}"
+  hx-target="#menu-cart-button"
+  >Add to cart
+</a>

@@ -1,9 +1,110 @@
-{% extends 'core/base.html' %}
-
-{% block title %}Cart{% endblock %}
-
+{% extends 'core/base.html' %} 
+{% block title %}Cart{% endblock %} 
 {% block content %}
+<div class="max-w-6xl mx-auto flex flex-wrap items-start justify-between py-6 px-6 xl:px-0 ">
+    <div class="cart-items pr-2 w-full lg:w-3/4">
+        <div class="cart-item grid grid-cols-6 gap-4 my-3">
+            <div class="col-span-1 ">
+                <a href="#">
+                    <img
+                        src="../../media/toys_images/placeholder-image.jpg"
+                        alt="Image"
+                        class="w-full object-scale-down hover:shadow-lg rounded-lg"
+                    />
+                </a>
+            </div>
+            <div class="col-span-2 pt-3 text-center self-center ">
+                <p>Title</p>
+            </div>
+            <div class="price relative col-span-1 text-center self-center ">
+                <div class="text-xs absolute">Price</div>
+                <p class="pt-3">$ 0.00</p>
+            </div>
+            <div class="quantity col-span-1 flex items-center justify-center space-x-2 ">
+                <a href="#" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-l-lg">–</a>
+                <span>2</span>
+                <a href="#" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-r-lg">+</a>
+            </div>
+            <div class="subtotal relative col-span-1 text-center self-center ">
+                <div class="text-xs absolute">Subtotal:</div>
+                <p class="pt-4">$ 0.00</p>
+            </div>
+        </div>
+        <hr>
+        <div class="cart-item grid grid-cols-6 gap-4 my-3">
+            <div class="col-span-1 ">
+                <a href="#">
+                    <img
+                        src="../../media/toys_images/placeholder-image.jpg"
+                        alt="Image"
+                        class="w-full object-scale-down hover:shadow-lg rounded-lg"
+                    />
+                </a>
+            </div>
+            <div class="col-span-2 pt-3 text-center self-center ">
+                <p>Title</p>
+            </div>
+            <div class="price relative col-span-1 text-center self-center ">
+                <div class="text-xs absolute">Price</div>
+                <p class="pt-3">$ 0.00</p>
+            </div>
+            <div class="quantity col-span-1 flex items-center justify-center space-x-2 ">
+                <a href="#" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-l-lg">–</a>
+                <span>2</span>
+                <a href="#" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-r-lg">+</a>
+            </div>
+            <div class="subtotal relative col-span-1 text-center self-center ">
+                <div class="text-xs absolute">Subtotal:</div>
+                <p class="pt-4">$ 0.00</p>
+            </div>
+        </div>
+        <hr>
+        <div class="cart-item grid grid-cols-6 gap-4 my-3">
+            <div class="col-span-1 ">
+                <a href="#">
+                    <img
+                        src="../../media/toys_images/placeholder-image.jpg"
+                        alt="Image"
+                        class="w-full object-scale-down hover:shadow-lg rounded-lg"
+                    />
+                </a>
+            </div>
+            <div class="col-span-2 pt-3 text-center self-center ">
+                <p>Title</p>
+            </div>
+            <div class="price relative col-span-1 text-center self-center ">
+                <div class="text-xs absolute">Price</div>
+                <p class="pt-3">$ 0.00</p>
+            </div>
+            <div class="quantity col-span-1 flex items-center justify-center space-x-2 ">
+                <a href="#" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-l-lg">–</a>
+                <span>2</span>
+                <a href="#" class="p-2 bg-gray-100 hover:bg-gray-200 rounded-r-lg">+</a>
+            </div>
+            <div class="subtotal relative col-span-1 text-center self-center ">
+                <div class="text-xs absolute">Subtotal:</div>
+                <p class="pt-4">$ 0.00</p>
+            </div>
+        </div>
+        <hr>
+    </div>
+    <div class="summary w-1/2 lg:w-1/5 p-4 bg-gray-200 rounded-xl lg:mt-2 mt-4">
+        <div>
+            <h2 class="uppercase text-lg mb-5">summary</h2>
 
-    
+        <div class="flex justify-between mb-6">
+            <span class="font-semibold text-gray-600">Total</span>
+            <span class="text-gray-900">$0.00</span>
+        </div>
 
-{% {% endblock %} %}
+        <a
+            href="#"
+            class="inline-block px-4 py-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white"
+            >Checkout</a
+        >
+        </div>
+        
+    </div>
+</div>
+
+{% endblock %}
