@@ -13,9 +13,12 @@ class Cart(object):
         self.cart = cart
     
     def __iter__(self):
-        for toy_id in self.cart.keys():
-            self.cart[str(toy_id)]['toy'] = Toy.objects.get(pk=toy_id)
-    
+        for toy_id, item in self.cart.items():
+            toy = Toy.objects.get(pk=toy_id)
+            item['toy'] = toy
+            item['total_price'] = toy.price * item['quantity']
+        return iter(self.cart.values())
+
     def __len__(self):
         return sum(item['quantity'] for item in self.cart.values())
 
@@ -41,3 +44,13 @@ class Cart(object):
         if toy_id in self.cart:
             del self.cart[toy_id]
             self.save()
+
+    def get_total(self):
+        return sum(item['total_price'] for item in self.cart.values())
+    
+    def get_item(self, toy_id):
+        toy_id = str(toy_id)
+        if toy_id in self.cart:
+            return self.cart[str(toy_id)]
+        else:
+            return None
