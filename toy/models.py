@@ -1,5 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import User
+from django.conf import settings
+
 
 class Category(models.Model):
     name = models.CharField(max_length=255)
@@ -22,7 +24,7 @@ class Toy(models.Model):
     stock = models.PositiveIntegerField()
     manufacturer = models.CharField(max_length=255, blank=True, null=True)
     release_year = models.IntegerField(choices=YEAR_CHOICES, default=1970)
-    created_by = models.ForeignKey(User, related_name='toys', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(User, related_name='toys', on_delete=models.PROTECT)
     date_time_created = models.DateTimeField(auto_now_add=True,)
     
     class Meta:
@@ -30,4 +32,7 @@ class Toy(models.Model):
         
     def __str__(self):
         return self.title
+    
+    def get_image_url(self):
+        return self.image.url if self.image else settings.PLACEHOLDER_IMAGE_URL
 

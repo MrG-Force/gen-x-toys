@@ -29,7 +29,7 @@ def update_cart(request, toy_id, action):
             'title': toy.title,
             'price': toy.price,
             'image': {
-                'url': toy.image.url,
+                'url': toy.get_image_url(),
             },
         },
         'quantity': quantity,

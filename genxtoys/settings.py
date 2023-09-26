@@ -134,3 +134,6 @@ MEDIA_ROOT = BASE_DIR / 'static/media'
 # https://docs.djangoproject.com/en/4.2/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Custom settings
+PLACEHOLDER_IMAGE_URL = '/static/media/toys_images/placeholder-image.jpg'

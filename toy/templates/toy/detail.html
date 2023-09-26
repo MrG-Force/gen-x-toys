@@ -40,9 +40,7 @@
               <a href="{% url 'toy:detail' toy.id %}">
                 <div>
                   <img
-                    src="{% if toy.image %}
-                          {{ toy.image.url }}
-                      {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}"
+                    src=src="{{ toy.get_image_url }}"
                     alt="{{ toy.title }}"
                     class="w-full object-scale-down h-48"
                   />
