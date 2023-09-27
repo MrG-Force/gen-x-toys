@@ -1,4 +1,5 @@
 from django.conf import settings
+from decimal import Decimal
 
 from toy.models import Toy
 
@@ -28,12 +29,14 @@ class Cart(object):
 
     def add(self, toy_id, quantity=1):
         toy_id = str(toy_id)
+        toy = Toy.objects.get(pk=toy_id)
 
         if toy_id not in self.cart:
-            self.cart[toy_id] = {'quantity': 1, 'id': toy_id}
+            self.cart[toy_id] = {'quantity': 1, 'id': toy_id, 'total_price': str(toy.price)}
 
         else:
             self.cart[toy_id]['quantity'] += int(quantity)
+            self.cart[toy_id]['total_price'] = str(toy.price * self.cart[toy_id]['quantity'])
 
             if self.cart[toy_id]['quantity'] == 0:
                 self.remove(toy_id)
@@ -46,7 +49,7 @@ class Cart(object):
             self.save()
 
     def get_total(self):
-        return sum(item['total_price'] for item in self.cart.values())
+        return sum(Decimal(item['total_price']) for item in self.cart.values())
     
     def get_item(self, toy_id):
         toy_id = str(toy_id)
