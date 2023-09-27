@@ -17,28 +17,49 @@
         <div class="text-xs absolute font-thin">Price:</div>
         <p class="pt-5">$ {{item.toy.price}}</p>
     </div>
-    <div class="quantity col-span-2 flex items-center justify-center space-x-2">
-        <a 
-            id="decrease-quantity-toy-{{ item.toy.id }}"
-            href="#"
-            hx-get="{% url 'update_cart' item.toy.id 'decrease' %}"
-            hx-target="#cart-item-{{ item.toy.id }}"
-            hx-swap="outerHTML">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 hover:text-rose-600">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>                              
-        </a>
+    <div class="quantity col-span-2 flex items-center justify-center space-x-2 group relative">
+        {% if item.quantity == 1 %}
+            <div 
+                id="decrease-quantity-toy-{{ item.toy.id }}"
+                class="opacity-40 cursor-not-allowed">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>                              
+                </div>
+        {% else %}
+            <a 
+                id="decrease-quantity-toy-{{ item.toy.id }}"
+                href="#"
+                hx-get="{% url 'update_cart' item.toy.id 'decrease' %}"
+                hx-target="#cart-item-{{ item.toy.id }}"
+                hx-swap="outerHTML">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-rose-600">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>                              
+            </a>
+        {% endif %}
         <span>{{item.quantity}}</span>
-        <a 
-            id="increase-quantity-toy-{{ item.toy.id }}"
-            href="#"
-            hx-get="{% url 'update_cart' item.toy.id 'increase' %}"
-            hx-target="#cart-item-{{ item.toy.id }}"
-            hx-swap="outerHTML">
-            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1" stroke="currentColor" class="w-6 h-6 hover:text-lime-500">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
-              </svg>                                                            
-        </a>
+        {% if item.quantity == item.toy.stock %}
+            <div 
+                id="increase-quantity-toy-{{ item.toy.id }}"
+                class="relative group">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 opacity-40">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>                                                            
+            </div>
+            <div class="opacity-0 text-xs text-red-600 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out break-normal mt-12 absolute">Max reached!</div>
+        {% else %}
+            <a 
+                id="increase-quantity-toy-{{ item.toy.id }}"
+                href="#"
+                hx-get="{% url 'update_cart' item.toy.id 'increase' %}"
+                hx-target="#cart-item-{{ item.toy.id }}"
+                hx-swap="outerHTML">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-lime-500">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>                                                            
+            </a>
+        {% endif %}
     </div>
     <div class="subtotal relative col-span-2 text-center self-center mb-3">
         <div class="text-xs absolute font-thin">Subtotal:</div>

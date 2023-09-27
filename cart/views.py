@@ -28,6 +28,7 @@ def update_cart(request, toy_id, action):
             'id': toy.id,
             'title': toy.title,
             'price': toy.price,
+            'stock': toy.stock,
             'image': {
                 'url': toy.get_image_url(),
             },
@@ -35,6 +36,15 @@ def update_cart(request, toy_id, action):
         'quantity': quantity,
         'total_price': toy.price * quantity,
     }
+
     response = render(request, 'cart/partials/cart_item.html', {'item': item})
 
+    response['HX-Trigger'] = 'update-menu-cart'
+
     return response
+
+def hx_menu_cart(request):
+    return render(request, 'cart/menu_cart.html')
+
+def hx_cart_total(request):
+    return render(request, 'cart/partials/cart_total.html')
