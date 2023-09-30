@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block content %}
-<div class="mt-6 px-6 py-12 bg-gray-200">
+<div class="mt-0 px-6 py-12 bg-gray-200">
     <h2 class="mb-8 text-2xl text-center">Shop</h2>
 
     <div class="mb-8">
@@ -22,7 +22,7 @@
         </select>
     </div>
 
-    <div class="grid grid-cols-4 gap-4" id="toyList">
+    <div class="grid grid-cols-4 gap-4 xl:grid-cols-5" id="toyList">
         {% include 'core/toy_list_partial.html' %}
     </div>
 
