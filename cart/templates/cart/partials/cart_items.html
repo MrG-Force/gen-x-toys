@@ -1,0 +1,18 @@
+{% load static %} 
+{% if cart|length == 0 %}
+
+    <div class="flex justify-center items-center mx-10 h-80">
+        <img src="{% static 'media/koala_cart.png' %}" alt="Koala" class="h-72 w-auto mr-4">
+        <div class="text-center mb-12">
+            <h2 class="text-2xl mb-2">Your cart is empty</h2>
+            <a href="{% url 'core:shop' %}" class="text-blue-500 underline">Go back to Shop</a>
+        </div>
+    </div>
+
+{% else %}
+
+    {% for item in cart %}
+        {% include 'cart/partials/cart_item.html' %}
+    {% endfor %}
+
+{% endif %}

@@ -33,7 +33,7 @@
             <div class="menu-right px-4 flex items-center space-x-6"> 
                 <div
                     hx-get="{% url 'hx_menu_cart' %}"
-                    hx-trigger="update-menu-cart from:body"
+                    hx-trigger="update-menu-cart from:body, delete-item from:body"
                     hx-swap="innerHTML"
                 >
 

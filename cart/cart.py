@@ -44,8 +44,10 @@ class Cart(object):
         self.save()
     
     def remove(self, toy_id):
-        if toy_id in self.cart:
-            del self.cart[toy_id]
+        print(f"In cart.remove ----> {self.cart.items()}")
+        print(f"cart.length => {self.cart.__len__()}")
+        if str(toy_id) in self.cart:
+            self.cart.pop(str(toy_id))
             self.save()
 
     def get_total(self):
