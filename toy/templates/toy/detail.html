@@ -9,7 +9,7 @@
 {% block content %}
     <div class="grid grid-cols-5 gap-6">
         <div class="col-span-2 flex">
-            <img class="w-full object-scale-down" src="{% if toy.image %}
+            <img class="w-full object-scale-down p-16" src="{% if toy.image %}
               {{ toy.image.url }}
             {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}" class="rounded-xl">
         </div>
@@ -27,7 +27,7 @@
             </p>
             {% endif %}
             <!-- Add to Cart button -->
-            {% include 'cart\add_to_cart.html' %}
+            {% include 'cart\add_to_cart_btn.html' %}
             
         </div>
     </div>
@@ -40,7 +40,7 @@
               <a href="{% url 'toy:detail' toy.id %}">
                 <div>
                   <img
-                    src=src="{{ toy.get_image_url }}"
+                    src="{{ toy.get_image_url }}"
                     alt="{{ toy.title }}"
                     class="w-full object-scale-down h-48"
                   />
@@ -56,4 +56,3 @@
       </div>
 
 {% endblock %}
-```
