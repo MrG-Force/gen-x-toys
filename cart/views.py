@@ -13,7 +13,7 @@ def add_to_cart(request, toy_id):
 
 def cart(request):
     cart = Cart(request)
-    return render(request, 'cart/cart.html', {'cart': cart})
+    return render(request, 'cart/cart.html', { 'cart': cart })
 
 
 def update_cart(request, toy_id, action=None):
@@ -41,7 +41,7 @@ def update_cart(request, toy_id, action=None):
         'total_price': toy.price * quantity,
     }
 
-    response = render(request, 'cart/partials/cart_item.html', {'item': item})
+    response = render(request, 'cart/partials/cart_item.html', { 'item': item })
 
     response['HX-Trigger'] = 'update-menu-cart'
 
@@ -57,6 +57,12 @@ def delete_item(request, toy_id):
     response['HX-Trigger'] = 'delete-item'
 
     return response
+
+def show_confirmation(request, toy_id):
+    return render(request, 'cart/partials/confirmation.html', { 'toy_id': toy_id })
+
+def hx_hide_confirmation(request, toy_id):
+    return render(request, 'cart/partials/hide_confirmation.html', { 'toy_id': toy_id })
 
 
 def hx_menu_cart(request):

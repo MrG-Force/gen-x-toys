@@ -1,5 +1,5 @@
-<div class="image cart-item grid grid-cols-12 gap-4 my-3" id="cart-item-{{ item.toy.id }}">
-    <div class="col-span-2">
+<div class="relative cart-item grid grid-cols-12 gap-4 my-3" id="cart-item-{{ item.toy.id }}">
+    <div class="cart-item-image col-span-2">
         <a href="#">
             <img
                 src="{% if item.toy.image %}
@@ -10,14 +10,14 @@
             />
         </a>
     </div>
-    <div class="title col-span-3 pt-3 text-center self-center">
+    <div class="cart-item-title col-span-3 pt-3 text-center self-center">
         <p>{{ item.toy.title }}</p>
     </div>
-    <div class="price relative col-span-2 text-center self-center mb-3">
+    <div class="cart-item-price relative col-span-2 text-center self-center mb-3">
         <div class="text-xs absolute font-thin">Price:</div>
         <p class="pt-5">$ {{item.toy.price}}</p>
     </div>
-    <div class="quantity col-span-2 flex items-center justify-center space-x-2 group relative">
+    <div class="cart-item-quantity col-span-2 flex items-center justify-center space-x-2 group relative mt-2">
         {% if item.quantity == 1 %}
             <div 
                 id="decrease-quantity-toy-{{ item.toy.id }}"
@@ -61,21 +61,24 @@
             </a>
         {% endif %}
     </div>
-    <div class="subtotal relative col-span-2 text-center self-center mb-3">
+    <div class="cart-item-subtotal relative col-span-2 text-center self-center mb-3">
         <div class="text-xs absolute font-thin">Subtotal:</div>
         <p class="pt-5">$ {{item.total_price}}</p>
     </div>
-    <div class="delete relative col-span-1 text-center self-center">
+    <div class="cart-item-delete-button relative col-span-1 text-center self-center static">
         <a 
             href="#" 
             class="text-zinc-600 hover:text-red-600"
-            hx-get="{% url 'delete_item' item.toy.id %}"
-            hx-target="#cart-item-{{ item.toy.id }}"
-            hx-swap="delete">
+            hx-get="{% url 'show_confirmation' item.toy.id %}"
+            hx-target="#confirmation-{{ item.toy.id }}"
+            hx-swap="outerHTML">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
-                <path stroke-linecap="round" stroke-linejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
+                <path stroke-linecap="round" 
+                stroke-linejoin="round" 
+                d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
               </svg>
         </a>
     </div>
+    <div id="confirmation-{{ item.toy.id }}" class="hidden"></div>
     <div class="col-span-12"><hr></div>
 </div>
