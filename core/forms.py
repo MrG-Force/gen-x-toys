@@ -1,5 +1,4 @@
 from django import forms
-from random import choice, randint
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from django.contrib.auth.models import User
 from faker import Faker
@@ -18,10 +17,12 @@ def generate_username_sample():
 class LoginForm(AuthenticationForm):
     username = forms.CharField(max_length=30, help_text='Required', widget=forms.TextInput(attrs={
         'placeholder': 'Your username',
-        'class': 'w-full py-4 px-6 rounded-lg'}))
+        'class': 'w-full py-4 px-6 rounded-lg',
+        'autocomplete':'username'}))
     password = forms.CharField(help_text='Required', label='Password', widget=forms.PasswordInput(attrs={
         'placeholder': 'Our secret handshake',
-        'class': 'w-full py-4 px-6 rounded-lg'}))
+        'class': 'w-full py-4 px-6 rounded-lg',
+        'autocomplete':'current-password'}))
 
 class SignupForm(UserCreationForm):
 
@@ -40,7 +41,8 @@ class SignupForm(UserCreationForm):
             'class': 'w-full py-4 px-6 rounded-lg'
         })  
     username = forms.CharField(max_length=30, help_text='Required', widget=forms.TextInput(attrs={
-        'class': INPUT_STYLES}))
+        'class': INPUT_STYLES,
+        'autocomplete':'username'}))
     accept_suggested_username = forms.BooleanField(required=False, initial=False, widget=forms.CheckboxInput(attrs={
         'id': 'accept-suggested',
         'label': 'Accept suggested username: ',
@@ -53,10 +55,13 @@ class SignupForm(UserCreationForm):
         'class': INPUT_STYLES}))
     last_name = forms.CharField(max_length=50, help_text='Required', widget=forms.TextInput(attrs={
         'placeholder': 'You know, the name you hide when you\'re famous.',
-        'class': INPUT_STYLES}))
+        'class': INPUT_STYLES,
+        'autocomplete':'family-name'}))
     password1 = forms.CharField(help_text='Required', label='Password', widget=forms.PasswordInput(attrs={
         'placeholder': 'Your secret handshake in text form.',
-        'class': INPUT_STYLES}))
+        'class': INPUT_STYLES,
+        'autocomplete':'new-password'}))
     password2 = forms.CharField(help_text='Required', label='Repeat password', widget=forms.PasswordInput(attrs={
         'placeholder': 'You sure? Type that secret handshake again.',
-        'class': INPUT_STYLES}))
+        'class': INPUT_STYLES,
+        'autocomplete':'new-password'}))
