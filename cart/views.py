@@ -58,12 +58,6 @@ def delete_item(request, toy_id):
 
     return response
 
-def show_confirmation(request, toy_id):
-    return render(request, 'cart/partials/confirmation.html', { 'toy_id': toy_id })
-
-def hx_hide_confirmation(request, toy_id):
-    return render(request, 'cart/partials/hide_confirmation.html', { 'toy_id': toy_id })
-
 
 def hx_menu_cart(request):
     return render(request, 'cart/menu_cart.html')
@@ -75,6 +69,7 @@ def hx_cart_total(request):
 
 def hx_checkout_btn(request):
     return render(request, 'cart/partials/checkout_btn.html')
+
 
 def hx_cart_items(request):
     cart = Cart(request)

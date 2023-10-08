@@ -1,3 +1,4 @@
+{% load static %}
 <div class="relative cart-item grid grid-cols-12 gap-4 my-3" id="cart-item-{{ item.toy.id }}">
     <div class="cart-item-image col-span-2">
         <a href="#">
@@ -65,13 +66,12 @@
         <div class="text-xs absolute font-thin">Subtotal:</div>
         <p class="pt-5">$ {{item.total_price}}</p>
     </div>
-    <div class="cart-item-delete-button relative col-span-1 text-center self-center static">
-        <a 
+    <div class="delete-button relative col-span-1 text-center self-center static">
+        <a id="delete-button-{{ item.toy.id }}" 
             href="#" 
-            class="text-zinc-600 hover:text-red-600"
-            hx-get="{% url 'show_confirmation' item.toy.id %}"
-            hx-target="#confirmation-{{ item.toy.id }}"
-            hx-swap="outerHTML">
+            onclick="toggleConfirmation({{ item.toy.id }}); return false;"
+            class="text-zinc-800 hover:text-red-600"
+            >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
                 <path stroke-linecap="round" 
                 stroke-linejoin="round" 
@@ -79,6 +79,27 @@
               </svg>
         </a>
     </div>
-    <div id="confirmation-{{ item.toy.id }}" class="hidden"></div>
+    <div id="confirmation-{{ item.toy.id }}"
+        class="grid grid-cols-2 gap-x-5 gap-y-1 rounded-lg absolute w-88 bottom-0 right-4 bg-rose-50 px-4 mb-1 hidden">
+        <p class="text-sm col-span-2">Are you sure you want to remove this item?</p>
+
+        <a
+            class="text-white text-md text-center bg-red-500 hover:bg-red-600 px-2 rounded-md col-span-1 mb-2"
+            href="#"
+            hx-get="{% url 'delete_item' item.toy.id %}"
+            hx-target="#cart-item-{{ item.toy.id }}"
+            hx-swap="delete">
+            Remove
+        </a>
+
+        <a
+            class="text-white text-md text-center bg-gray-400 hover:bg-gray-500 px-2 rounded-md col-span-1 mb-2"
+            onclick="toggleConfirmation({{ item.toy.id }}); return false;"
+            href="#"
+            >
+            Cancel
+        </a>
+    </div>
     <div class="col-span-12"><hr></div>
 </div>
+<script src="{% static 'js/cart_item.js' %}"></script>
