@@ -58,6 +58,10 @@ def delete_item(request, toy_id):
 
     return response
 
+def checkout(request):
+    cart = Cart(request)
+    return render(request, 'cart/checkout.html', { 'cart': cart })
+
 
 def hx_menu_cart(request):
     return render(request, 'cart/menu_cart.html')
