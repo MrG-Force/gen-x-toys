@@ -21,6 +21,8 @@ class Order(models.Model):
     payment = models.ForeignKey('Payment', related_name='orders', blank=True, null=True, on_delete=models.PROTECT)
     created_at = models.DateTimeField(auto_now_add=True)
     status = models.CharField(max_length=20, choices=STATUS_CHOICES, default=CREATED)
+    paid = models.BooleanField(default=False)
+    paid_amount = models.DecimalField(max_digits=10, decimal_places=2, blank=True, null=True)
 
 class BillingDetails(models.Model):
     user = models.ForeignKey(User, related_name='billing_details', blank=True, null=True, on_delete=models.CASCADE)
