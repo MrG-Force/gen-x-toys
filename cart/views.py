@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import HttpResponse
 from .cart import Cart
 from toy.models import Toy
+from order.models import Address
 
 
 def add_to_cart(request, toy_id):
@@ -60,7 +61,8 @@ def delete_item(request, toy_id):
 
 def checkout(request):
     cart = Cart(request)
-    return render(request, 'cart/checkout.html', { 'cart': cart })
+    states = Address.STATES_CHOICES
+    return render(request, 'cart/checkout.html', { 'cart': cart, 'states': states })
 
 
 def hx_menu_cart(request):

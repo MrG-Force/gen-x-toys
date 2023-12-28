@@ -39,7 +39,6 @@ def signup(request):
     })
 
 def logout(request):
-    logout(request)
     return redirect(request, 'core/index.html')
 
 def shop(request):        

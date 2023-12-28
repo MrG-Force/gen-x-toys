@@ -15,6 +15,7 @@ class Order(models.Model):
         (CANCELLED, 'Cancelled'),
         (DELIVERED, 'Delivered'),
     ]
+    
     user = models.ForeignKey(User, related_name='orders', blank=True, null=True, on_delete=models.CASCADE)
     billing_details = models.ForeignKey('BillingDetails', related_name='orders', blank=True, null=True, on_delete=models.PROTECT)
     shipping_details = models.ForeignKey('ShippingDetails', related_name='orders', blank=True, null=True, on_delete=models.PROTECT)
