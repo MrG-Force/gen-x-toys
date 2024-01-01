@@ -19,7 +19,7 @@ class LoginForm(AuthenticationForm):
         'placeholder': 'Your username',
         'class': 'w-full py-4 px-6 rounded-lg',
         'autocomplete':'username'}))
-    password = forms.CharField(help_text='Required', label='Password', widget=forms.PasswordInput(attrs={
+    password = forms.CharField(help_text='Required', widget=forms.PasswordInput(attrs={
         'placeholder': 'Our secret handshake',
         'class': 'w-full py-4 px-6 rounded-lg',
         'autocomplete':'current-password'}))

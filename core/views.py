@@ -1,6 +1,5 @@
 from django.shortcuts import render, redirect
 from random import sample
-from django.http import JsonResponse
 
 from toy.models import Category, Toy
 
