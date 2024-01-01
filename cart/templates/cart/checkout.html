@@ -69,96 +69,154 @@
                         </svg>
                     </button>
                 </div>
-                <div class="flex flex-col bg-gray-100 py-2 px-4" id="billingSectionContent">
+                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4" id="billingSectionContent">
+                    {% csrf_token %}
+                    
                     <div class="flex flex-row justify-between">
-                        <div class="w-1/2">
-                            <label for="billingFirstName" class="text-sm font-semibold text-gray-600">First Name</label>
-                            {% if request.user.is_authenticated %}
-                            <input type="text" name="billingFirstName" id="billingFirstName" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring" value="{{ request.user.first_name }}">
-                            {% else %}
-                            <input type="text" name="billingFirstName" id="billingFirstName" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
-                            {% endif %}
+                        <div class="w-1/2 fieldWrapper">
+                            <label for="{{ billingForm.first_name.id_for_label }}" class="text-sm font-semibold text-gray-600">First name</label>
+                            {{ billingForm.first_name }}
                         </div>
                         <div class="w-1/2 pl-4">
-                            <label for="billingLastName" class="text-sm font-semibold text-gray-600">Last Name</label>
-                            {% if request.user.is_authenticated %}
-                            <input type="text" name="billingLastName" id="billingLastName" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring" value="{{ request.user.last_name }}">
-                            {% else %}
-                            <input type="text" name="billingLastName" id="billingLastName" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
-                            {% endif %}
+                            <label for="{{ billingForm.last_name.id_for_label }}" class="text-sm font-semibold text-gray-600">Last name</label>
+                            {{ billingForm.last_name }}
                         </div>
                     </div>
                     <div class="flex flex-row justify-between">
                         <div class="w-3/4">
-                            <label for="billingStreetAddress" class="text-sm font-semibold text-gray-600">Street Address</label>
-                            <input type="text" name="billingStreetAddress" id="billingStreetAddress" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
+                            <label for="{{ billingForm.street_address.id_for_label }}" class="text-sm font-semibold text-gray-600">Street address</label>
+                            {{ billingForm.street_address }}
                         </div>
                         <div class="w-1/4 pl-4">
-                            <label for="billingUnitApt" class="text-sm font-semibold text-gray-600">Unit/Apt</label>
-                            <input type="text" name="billingUnitApt" id="billingUnitApt" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
+                            <label for="{{ billingForm.unit_apt.id_for_label }}" class="text-sm font-semibold text-gray-600">Unit/Apt</label>
+                            {{ billingForm.unit_apt }}
                         </div>
                     </div>
                     <div class="flex flex-row justify-between">
                         <div class="w-2/4">
-                            <label for="billingSuburb" class="text-sm font-semibold text-gray-600">Suburb</label>
-                            <input type="text" name="billingSuburb" id="billingSuburb" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
+                            <label for="{{ billingForm.suburb.id_for_label }}" class="text-sm font-semibold text-gray-600">Suburb</label>
+                            {{ billingForm.suburb }}
                         </div>
                         <div class="w-1/4 pl-4">
-                            <label for="billingState" class="text-sm font-semibold text-gray-600">State</label>
-                            <select name="billingState" id="billingState" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
-                                <option value="" disabled selected>Select State...</option>
-                                {% for value, name in states %}
-                                    <option value="{{ value }}">{{ value }}</option>
-                                {% endfor %}
-                            </select>
+                            <label "{{ billingForm.state.id_for_label }}" class="text-sm font-semibold text-gray-600">State</label>
+                            {{ billingForm.state }}
                         </div>
                         <div class="w-1/4 pl-4">
-                            <label for="billingPostcode" class="text-sm font-semibold text-gray-600">Postcode</label>
-                            <input type="text" name="billingPostcode" id="billingPostcode" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
+                            <label for="{{ billingForm.postcode.id_for_label }}" class="text-sm font-semibold text-gray-600">Postcode</label>
+                            {{ billingForm.postcode }}
                         </div>
                     </div>
                     <div class="flex flex-row justify-between pb-2">
                         <div class="w-1/2">
-                            <label for="email" class="text-sm font-semibold text-gray-600">Email</label>
-                            {% if request.user.is_authenticated %}
-                            <input type="email" name="email" id="email" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring" value="{{ request.user.email }}">
-                            {% else %}
-                            <input type="email" name="email" id="email" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
-                            {% endif %}
+                            <label for="{{ billingForm.email.id_for_label }}" class="text-sm font-semibold text-gray-600">Email</label>
+                            {{ billingForm.email }}
                         </div>
                         <div class="w-1/2 pl-4">
-                            <label for="phone" class="text-sm font-semibold text-gray-600">Phone</label>
-                            <input type="text" name="phone" id="phone" class="w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring">
+                            <label for="{{ billingForm.phone.id_for_label }}" class="text-sm font-semibold text-gray-600">Phone</label>
+                            {{ billingForm.phone }}
                         </div>
                     </div>
-                </div>
+                    <div class="flex w-full justify-end">
+                        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
+                    </div>
+                </form>
             </div>
 
             <div class="bg-gray-100 rounded-md mb-2" id="shippingSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="shippingSectionHeader">
-                    <h2 class="uppercase text-lg font-semibold text-indigo-800">Shipping</h2>
+                    <h2 class="uppercase text-lg font-semibold text-gray-400">Shipping</h2>
                     <button type="button" class="accordion-toggle" data-target="shippingSectionContent">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-violet-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>
                 </div>
+                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 hidden" id="shippingSectionContent">
+                    {% csrf_token %}
+                    <div class="flex flex-row justify-between">
+                        <div class="w-1/2 fieldWrapper">
+                            <label for="{{ shippingForm.first_name.id_for_label }}" class="text-sm font-semibold text-gray-600">First name</label>
+                            {{ shippingForm.first_name }}
+                        </div>
+                        <div class="w-1/2 pl-4 fieldWrapper">
+                            <label for="{{ shippingForm.last_name.id_for_label }}" class="text-sm font-semibold text-gray-600">Last name</label>
+                            {{ shippingForm.last_name }}
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-between">
+                        <div class="w-3/4 fieldWrapper">
+                            <label for="{{ shippingForm.street_address.id_for_label }}" class="text-sm font-semibold text-gray-600">Street address</label>
+                            {{ shippingForm.street_address }}
+                        </div>
+                        <div class="w-1/4 pl-4 fieldWrapper">
+                            <label for="{{ shippingForm.unit_apt.id_for_label }}" class="text-sm font-semibold text-gray-600">Unit/Apt</label>
+                            {{ shippingForm.unit_apt }}
+                        </div>
+                    </div>
+                    <div class="flex flex-row justify-between pb-2">
+                        <div class="w-2/4 fieldWrapper">
+                            <label for="{{ shippingForm.suburb.id_for_label }}" class="text-sm font-semibold text-gray-600">Suburb</label>
+                            {{ shippingForm.suburb }}
+                        </div>
+                        <div class="w-1/4 pl-4 fieldWrapper">
+                            <label "{{ shippingForm.state.id_for_label }}" class="text-sm font-semibold text-gray-600">State</label>
+                            {{ shippingForm.state }}
+                        </div>
+                        <div class="w-1/4 pl-4 fieldWrapper">
+                            <label for="{{ shippingForm.postcode.id_for_label }}" class="text-sm font-semibold text-gray-600">Postcode</label>
+                            {{ shippingForm.postcode }}
+                        </div>
+                    </div>
+                    <div class="flex w-full justify-end">
+                        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
+                    </div>
+                </form>
             </div>
             <div class="bg-gray-100 rounded-md mb-2" id="paymentSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="paymentSectionHeader">
-                    <h2 class="uppercase text-lg font-semibold text-indigo-800">Payment</h2>
+                    <h2 class="uppercase text-lg font-semibold text-gray-400">Payment</h2>
                     <button type="button" class="accordion-toggle" data-target="paymentSectionContent">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-violet-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>
                 </div>
+                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 hidden" id="paymentSectionContent">
+                    {% csrf_token %}
+                    <div class="flex flex-row justify-between">
+                        <div class="w-1/2 fieldWrapper">
+                            <label for="{{ paymentForm.name_on_card.id_for_label }}" class="text-sm font-semibold text-gray-600">Name on card</label>
+                            {{ paymentForm.name_on_card }}
+                        </div>
+                        <div class="w-1/2 pl-4 fieldWrapper">
+                            <label for="{{ paymentForm.card_number.id_for_label }}" class="text-sm font-semibold text-gray-600">Card number</label>
+                            {{ paymentForm.card_number }}
+                        </div>
+                    </div>
+                    <div class="flex flex-row ">
+                        <div class="w-1/4 fieldWrapper">
+                            <label for="{{ paymentForm.expiry_month.id_for_label }}" class="text-sm font-semibold text-gray-600">Expiry month</label>
+                            {{ paymentForm.expiry_month }}
+                        </div>
+                        <div class="w-1/6 pl-2 fieldWrapper">
+                            <label for="{{ paymentForm.expiry_year.id_for_label }}" class="text-sm font-semibold text-gray-600">Expiry year</label>
+                            {{ paymentForm.expiry_year }}
+                        </div>
+                        <div class="w-1/6 pl-10 fieldWrapper">
+                            <label "{{ paymentForm.cvv.id_for_label }}" class="text-sm font-semibold text-gray-600">CVV</label>
+                            {{ paymentForm.cvv }}
+                        </div>
+                    </div>
+                    <div class="flex w-full justify-end">
+                        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
+                    </div>
+                </form>
             </div>
             <div class="bg-gray-100 rounded-md mb-2" id="summarySection">
                 <div class="flex justify-between bg-gray-100 p-2" id="summarySectionHeader">
-                    <h2 class="uppercase text-lg font-semibold text-indigo-800">Order Summary</h2>
+                    <h2 class="uppercase text-lg font-semibold text-gray-400">Order Summary</h2>
                     <button type="button" class="accordion-toggle" data-target="summarySectionContent">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-violet-600">
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-gray-400">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>

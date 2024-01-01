@@ -1,8 +1,9 @@
 from django.shortcuts import render
 from django.http import HttpResponse
+
+from .forms import BillingForm, PaymentForm, ShippingForm
 from .cart import Cart
 from toy.models import Toy
-from order.models import Address
 
 
 def add_to_cart(request, toy_id):
@@ -60,9 +61,11 @@ def delete_item(request, toy_id):
     return response
 
 def checkout(request):
+    billingForm = BillingForm()
+    shippingForm = ShippingForm()
+    paymentForm = PaymentForm()
     cart = Cart(request)
-    states = Address.STATES_CHOICES
-    return render(request, 'cart/checkout.html', { 'cart': cart, 'states': states })
+    return render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm })
 
 
 def hx_menu_cart(request):
