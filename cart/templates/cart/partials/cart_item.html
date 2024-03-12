@@ -1,12 +1,12 @@
 {% load static %}
-<div class="relative cart-item grid grid-cols-12 gap-4 my-3" id="cart-item-{{ item.toy.id }}">
+<div class="relative cart-item grid grid-cols-12 gap-4 my-3" id="cart-item-{{ item.id }}">
     <div class="cart-item-image col-span-2">
         <a href="#">
             <img
-                src="{% if item.toy.image %}
+                src="{% if item.toy.image.url %}
                         {{ item.toy.image.url }}
                     {% else %}../../media/toys_images/placeholder-image.jpg{% endif %}"
-                alt="{{ item.toy.name }}"
+                alt="{{ item.toy.title }}"
                 class="w-full h-32 object-scale-down hover:shadow-lg rounded-lg"
             />
         </a>
@@ -21,7 +21,7 @@
     <div class="cart-item-quantity col-span-2 flex items-center justify-center space-x-2 group relative mt-2">
         {% if item.quantity == 1 %}
             <div 
-                id="decrease-quantity-toy-{{ item.toy.id }}"
+                id="decrease-quantity-toy-{{ item.id }}"
                 class="opacity-40 cursor-not-allowed">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -29,10 +29,10 @@
                 </div>
         {% else %}
             <a 
-                id="decrease-quantity-toy-{{ item.toy.id }}"
+                id="decrease-quantity-toy-{{ item.id }}"
                 href="#"
-                hx-get="{% url 'update_cart' item.toy.id 'decrease' %}"
-                hx-target="#cart-item-{{ item.toy.id }}"
+                hx-get="{% url 'update_cart' item.id 'decrease' %}"
+                hx-target="#cart-item-{{ item.id }}"
                 hx-swap="outerHTML">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-rose-600">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M15 12H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -42,7 +42,7 @@
         <span>{{item.quantity}}</span>
         {% if item.quantity == item.toy.stock %}
             <div 
-                id="increase-quantity-toy-{{ item.toy.id }}"
+                id="increase-quantity-toy-{{ item.id }}"
                 class="relative group">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 opacity-40">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -51,10 +51,10 @@
             <div class="opacity-0 text-xs text-red-600 group-hover:opacity-100 transition-opacity duration-1000 ease-in-out break-normal mt-12 absolute">Max reached!</div>
         {% else %}
             <a 
-                id="increase-quantity-toy-{{ item.toy.id }}"
+                id="increase-quantity-toy-{{ item.id }}"
                 href="#"
-                hx-get="{% url 'update_cart' item.toy.id 'increase' %}"
-                hx-target="#cart-item-{{ item.toy.id }}"
+                hx-get="{% url 'update_cart' item.id 'increase' %}"
+                hx-target="#cart-item-{{ item.id }}"
                 hx-swap="outerHTML">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6 hover:text-lime-500">
                     <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v6m3-3H9m12 0a9 9 0 11-18 0 9 9 0 0118 0z" />
@@ -67,9 +67,9 @@
         <p class="pt-5">$ {{item.total_price}}</p>
     </div>
     <div class="delete-button relative col-span-1 text-center self-center static">
-        <a id="delete-button-{{ item.toy.id }}" 
+        <a id="delete-button-{{ item.id }}" 
             href="#" 
-            onclick="toggleConfirmation({{ item.toy.id }}); return false;"
+            onclick="toggleConfirmation({{ item.id }}); return false;"
             class="text-zinc-800 hover:text-red-600"
             >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
@@ -79,22 +79,22 @@
               </svg>
         </a>
     </div>
-    <div id="confirmation-{{ item.toy.id }}"
+    <div id="confirmation-{{ item.id }}"
         class="grid grid-cols-2 gap-x-5 gap-y-1 rounded-lg absolute w-88 bottom-0 right-4 bg-rose-50 px-4 mb-1 hidden">
         <p class="text-sm col-span-2">Are you sure you want to remove this item?</p>
 
         <a
             class="text-white text-md text-center bg-red-500 hover:bg-red-600 px-2 rounded-md col-span-1 mb-2"
             href="#"
-            hx-get="{% url 'delete_item' item.toy.id %}"
-            hx-target="#cart-item-{{ item.toy.id }}"
+            hx-get="{% url 'delete_item' item.id %}"
+            hx-target="#cart-item-{{ item.id }}"
             hx-swap="delete">
             Remove
         </a>
 
         <a
             class="text-white text-md text-center bg-gray-400 hover:bg-gray-500 px-2 rounded-md col-span-1 mb-2"
-            onclick="toggleConfirmation({{ item.toy.id }}); return false;"
+            onclick="toggleConfirmation({{ item.id }}); return false;"
             href="#"
             >
             Cancel

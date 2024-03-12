@@ -1,5 +1,7 @@
 {% extends 'core/base.html' %} 
-{% load static %} 
+{% load form_tags %} 
+{% load static %}
+
 {% block title %}Checkout{% endblock %} 
 
 {% block extra_head %}
@@ -58,9 +60,8 @@
         </div>
         {% endif %}
 
-        <div id="orderDetails" class="container w-full my-2">
-
-            <div class="bg-gray-100 rounded-md mb-2" id="billingSection">
+        <div class="container w-full my-2">
+            <div class="section bg-gray-100 rounded-md mb-2 {% if billingFormComplete %}completed{% endif %}" id="billingSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="billingSectionHeader">
                     <h2 class="uppercase text-lg font-semibold text-indigo-800">Billing</h2>
                     <button type="button" class="accordion-toggle" data-target="billingSectionContent">
@@ -69,110 +70,62 @@
                         </svg>
                     </button>
                 </div>
-                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4" id="billingSectionContent">
+
+                <form method="post" action="checkout_billing_form" class="flex flex-col bg-gray-100 py-2 px-4" id="billingSectionContent" novalidate>
                     {% csrf_token %}
-                    
                     <div class="flex flex-row justify-between">
-                        <div class="w-1/2 fieldWrapper">
-                            <label for="{{ billingForm.first_name.id_for_label }}" class="text-sm font-semibold text-gray-600">First name</label>
-                            {{ billingForm.first_name }}
-                        </div>
-                        <div class="w-1/2 pl-4">
-                            <label for="{{ billingForm.last_name.id_for_label }}" class="text-sm font-semibold text-gray-600">Last name</label>
-                            {{ billingForm.last_name }}
-                        </div>
+                        {% form_field billingForm.first_name "w-1/2 fieldWrapper" %}
+                        {% form_field billingForm.last_name "w-1/2 pl-4 fieldWrapper" %}
                     </div>
                     <div class="flex flex-row justify-between">
-                        <div class="w-3/4">
-                            <label for="{{ billingForm.street_address.id_for_label }}" class="text-sm font-semibold text-gray-600">Street address</label>
-                            {{ billingForm.street_address }}
-                        </div>
-                        <div class="w-1/4 pl-4">
-                            <label for="{{ billingForm.unit_apt.id_for_label }}" class="text-sm font-semibold text-gray-600">Unit/Apt</label>
-                            {{ billingForm.unit_apt }}
-                        </div>
+                        {% form_field billingForm.street_address "w-3/4 fieldWrapper" %}
+                        {% form_field billingForm.unit_apt "w-1/4 pl-4 fieldWrapper" %}
                     </div>
                     <div class="flex flex-row justify-between">
-                        <div class="w-2/4">
-                            <label for="{{ billingForm.suburb.id_for_label }}" class="text-sm font-semibold text-gray-600">Suburb</label>
-                            {{ billingForm.suburb }}
-                        </div>
-                        <div class="w-1/4 pl-4">
-                            <label "{{ billingForm.state.id_for_label }}" class="text-sm font-semibold text-gray-600">State</label>
-                            {{ billingForm.state }}
-                        </div>
-                        <div class="w-1/4 pl-4">
-                            <label for="{{ billingForm.postcode.id_for_label }}" class="text-sm font-semibold text-gray-600">Postcode</label>
-                            {{ billingForm.postcode }}
-                        </div>
+                        {% form_field billingForm.suburb "w-2/4 fieldWrapper" %}
+                        {% form_field billingForm.state "w-1/4 pl-4 fieldWrapper" "* Please select your " %}
+                        {% form_field billingForm.postcode "w-1/4 pl-4 fieldWrapper" %}
                     </div>
                     <div class="flex flex-row justify-between pb-2">
-                        <div class="w-1/2">
-                            <label for="{{ billingForm.email.id_for_label }}" class="text-sm font-semibold text-gray-600">Email</label>
-                            {{ billingForm.email }}
-                        </div>
-                        <div class="w-1/2 pl-4">
-                            <label for="{{ billingForm.phone.id_for_label }}" class="text-sm font-semibold text-gray-600">Phone</label>
-                            {{ billingForm.phone }}
-                        </div>
+                        {% form_field billingForm.email "w-1/2 fieldWrapper" "* Please enter a valid " %}
+                        {% form_field billingForm.phone "w-1/2 pl-4 fieldWrapper" %}
                     </div>
-                    <div class="flex w-full justify-end">
+                    <div class="flex flex-row w-full justify-end">
                         <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
                     </div>
                 </form>
             </div>
-
-            <div class="bg-gray-100 rounded-md mb-2" id="shippingSection">
+            <div class="bg-gray-100 rounded-md mb-2 section" id="shippingSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="shippingSectionHeader">
                     <h2 class="uppercase text-lg font-semibold text-gray-400">Shipping</h2>
-                    <button type="button" class="accordion-toggle" data-target="shippingSectionContent">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-gray-400">
+                    <button type="button" class="accordion-toggle" data-target="shippingSectionContent" {% if not billingFormComplete %}disabled{% endif %}>
+                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" 
+                        class="{% if not billingFormComplete %}chevron w-6 h-6 stroke-gray-400 {% else %}chevron w-6 h-6 stroke-violet-600 rotate-90{% endif %}">
                             <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
                         </svg>
                     </button>
                 </div>
-                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 hidden" id="shippingSectionContent">
+                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 {% if not billingFormComplete %}hidden{% endif %}" id="shippingSectionContent">
                     {% csrf_token %}
                     <div class="flex flex-row justify-between">
-                        <div class="w-1/2 fieldWrapper">
-                            <label for="{{ shippingForm.first_name.id_for_label }}" class="text-sm font-semibold text-gray-600">First name</label>
-                            {{ shippingForm.first_name }}
-                        </div>
-                        <div class="w-1/2 pl-4 fieldWrapper">
-                            <label for="{{ shippingForm.last_name.id_for_label }}" class="text-sm font-semibold text-gray-600">Last name</label>
-                            {{ shippingForm.last_name }}
-                        </div>
+                        {% form_field shippingForm.first_name "w-1/2 fieldWrapper" %}
+                        {% form_field shippingForm.last_name "w-1/2 pl-4 fieldWrapper" %}
                     </div>
                     <div class="flex flex-row justify-between">
-                        <div class="w-3/4 fieldWrapper">
-                            <label for="{{ shippingForm.street_address.id_for_label }}" class="text-sm font-semibold text-gray-600">Street address</label>
-                            {{ shippingForm.street_address }}
-                        </div>
-                        <div class="w-1/4 pl-4 fieldWrapper">
-                            <label for="{{ shippingForm.unit_apt.id_for_label }}" class="text-sm font-semibold text-gray-600">Unit/Apt</label>
-                            {{ shippingForm.unit_apt }}
-                        </div>
+                        {% form_field shippingForm.street_address "w-3/4 fieldWrapper" %}
+                        {% form_field shippingForm.unit_apt "w-1/4 pl-4 fieldWrapper" %}
                     </div>
                     <div class="flex flex-row justify-between pb-2">
-                        <div class="w-2/4 fieldWrapper">
-                            <label for="{{ shippingForm.suburb.id_for_label }}" class="text-sm font-semibold text-gray-600">Suburb</label>
-                            {{ shippingForm.suburb }}
-                        </div>
-                        <div class="w-1/4 pl-4 fieldWrapper">
-                            <label "{{ shippingForm.state.id_for_label }}" class="text-sm font-semibold text-gray-600">State</label>
-                            {{ shippingForm.state }}
-                        </div>
-                        <div class="w-1/4 pl-4 fieldWrapper">
-                            <label for="{{ shippingForm.postcode.id_for_label }}" class="text-sm font-semibold text-gray-600">Postcode</label>
-                            {{ shippingForm.postcode }}
-                        </div>
+                        {% form_field shippingForm.suburb "w-2/4 fieldWrapper" %}
+                        {% form_field shippingForm.state "w-1/4 pl-4 fieldWrapper" "* Please select your " %}
+                        {% form_field shippingForm.postcode "w-1/4 pl-4 fieldWrapper" %}
                     </div>
                     <div class="flex w-full justify-end">
                         <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
                     </div>
                 </form>
             </div>
-            <div class="bg-gray-100 rounded-md mb-2" id="paymentSection">
+            <div class="bg-gray-100 rounded-md mb-2 section" id="paymentSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="paymentSectionHeader">
                     <h2 class="uppercase text-lg font-semibold text-gray-400">Payment</h2>
                     <button type="button" class="accordion-toggle" data-target="paymentSectionContent">
@@ -184,35 +137,20 @@
                 <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 hidden" id="paymentSectionContent">
                     {% csrf_token %}
                     <div class="flex flex-row justify-between">
-                        <div class="w-1/2 fieldWrapper">
-                            <label for="{{ paymentForm.name_on_card.id_for_label }}" class="text-sm font-semibold text-gray-600">Name on card</label>
-                            {{ paymentForm.name_on_card }}
-                        </div>
-                        <div class="w-1/2 pl-4 fieldWrapper">
-                            <label for="{{ paymentForm.card_number.id_for_label }}" class="text-sm font-semibold text-gray-600">Card number</label>
-                            {{ paymentForm.card_number }}
-                        </div>
+                        {% form_field paymentForm.name_on_card "w-1/2 fieldWrapper" "* Please enter the " %}
+                        {% form_field paymentForm.card_number "w-1/2 pl-4 fieldWrapper" "* Please enter a valid " %}
                     </div>
                     <div class="flex flex-row ">
-                        <div class="w-1/4 fieldWrapper">
-                            <label for="{{ paymentForm.expiry_month.id_for_label }}" class="text-sm font-semibold text-gray-600">Expiry month</label>
-                            {{ paymentForm.expiry_month }}
-                        </div>
-                        <div class="w-1/6 pl-2 fieldWrapper">
-                            <label for="{{ paymentForm.expiry_year.id_for_label }}" class="text-sm font-semibold text-gray-600">Expiry year</label>
-                            {{ paymentForm.expiry_year }}
-                        </div>
-                        <div class="w-1/6 pl-10 fieldWrapper">
-                            <label "{{ paymentForm.cvv.id_for_label }}" class="text-sm font-semibold text-gray-600">CVV</label>
-                            {{ paymentForm.cvv }}
-                        </div>
+                        {% form_field paymentForm.expiry_month "w-1/4 fieldWrapper" "* Please select an " %}
+                        {% form_field paymentForm.expiry_year "w-1/6 pl-2 fieldWrapper" "* We require the " %}
+                        {% form_field paymentForm.cvv "w-1/6 pl-10 fieldWrapper" "* Please enter the " %}
                     </div>
                     <div class="flex w-full justify-end">
                         <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
                     </div>
                 </form>
             </div>
-            <div class="bg-gray-100 rounded-md mb-2" id="summarySection">
+            <div class="bg-gray-100 rounded-md mb-2 section" id="summarySection">
                 <div class="flex justify-between bg-gray-100 p-2" id="summarySectionHeader">
                     <h2 class="uppercase text-lg font-semibold text-gray-400">Order Summary</h2>
                     <button type="button" class="accordion-toggle" data-target="summarySectionContent">

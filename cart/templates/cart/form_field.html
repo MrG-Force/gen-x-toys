@@ -1,0 +1,10 @@
+<div class="{{ wrapper_classes }}">
+    <label for="{{ field.id_for_label }}" class="text-sm font-semibold text-gray-600">
+        {{ field.label }}{% if field.field.required %}<span class="text-red-600"> *</span>{% endif %}
+    </label>
+    {{ field }}
+    <div class="text-sm text-red-600 hidden">{{ error_message_prefix }}{{ field.label|lower }}</div>
+    <div class="text-sm text-red-600 pt-1">
+        {{ field.errors }}
+    </div>
+</div>

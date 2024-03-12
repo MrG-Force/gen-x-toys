@@ -1,11 +1,23 @@
 from django import forms
 
 from order.models import Address
+from django.core import validators
 
-INPUT_STYLES = "w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring"
+INPUT_STYLES = "w-full p-2 border border-gray-300 rounded-md shadow-inner focus:outline-none focus:ring mb"
+PHONE_REGEX = r'^(\+61\s?4\d{2}\s?\d{3}\s?\d{3}|04\d{2}\s?\d{3}\s?\d{3}|\(0\d\)\s?\d{4}\s?\d{4}|0\d{8,9})$|^\+?[1-9]\d{7,14}$'
 
 
 class BillingForm(forms.Form):
+    
+    def __init__(self, *args, **kwargs):
+        super(BillingForm, self).__init__(*args, **kwargs)
+        error_class = 'outline outline-offset-0 outline-dotted outline-red-500/25'
+
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = INPUT_STYLES
+            if self.errors.get(field_name):
+                field.widget.attrs['class'] += f' {error_class}'
+
     first_name = forms.CharField(label='First Name', max_length=50, required=True, widget=forms.TextInput(attrs={
         'id': 'billingFirstName',
         'class': INPUT_STYLES}))
@@ -23,18 +35,22 @@ class BillingForm(forms.Form):
         'class': INPUT_STYLES}))
     state = forms.ChoiceField(label='State', choices=[('', 'Select State...')] + list(Address.STATES_CHOICES), required=True, widget=forms.Select(attrs={
         'id': 'billingState',
-        'class': INPUT_STYLES,
-        'placeholder': 'Select State...'}))
+        'class': INPUT_STYLES}))
     postcode = forms.CharField(label='Postcode', max_length=4, required=True, widget=forms.TextInput(attrs={
         'id': 'billingPostcode',
-        'class': INPUT_STYLES}))
+        'class': INPUT_STYLES}),
+        validators=[validators.RegexValidator(r'^\d{4}$', message="* Postcode must be 4 digits.")])
     email = forms.EmailField(label='Email', max_length=254, required=True, widget=forms.EmailInput(attrs={
         'id': 'billingEmail',
-        'class': INPUT_STYLES}))
+        'placeholder': 'test@test.com',
+        'class': INPUT_STYLES}),
+        validators=[validators.EmailValidator(message="* Please enter a valid email address.")])
     phone = forms.CharField(label='Phone', max_length=15, required=True, widget=forms.TextInput(attrs={
         'id': 'billingPhone',
-        'class': INPUT_STYLES}))
-    
+        'class': INPUT_STYLES}),
+        validators=[validators.RegexValidator(PHONE_REGEX, message="* Phone must be in Australian format (04XX XXX XXX or (0X) XXXX XXXX) or international format starting with '+'.")])
+
+
 class ShippingForm(forms.Form):
 
     first_name = forms.CharField(label='First Name', max_length=50, required=True, widget=forms.TextInput(attrs={
@@ -59,7 +75,8 @@ class ShippingForm(forms.Form):
     postcode = forms.CharField(label='Postcode', max_length=4, required=True, widget=forms.TextInput(attrs={
         'id': 'shippingPostcode',
         'class': INPUT_STYLES}))
-    
+
+
 class PaymentForm(forms.Form):
     MONTH_CHOICES = [
         ('', 'Select Month...'),

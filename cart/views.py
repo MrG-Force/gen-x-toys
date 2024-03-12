@@ -1,5 +1,5 @@
-from django.shortcuts import render
-from django.http import HttpResponse
+from django.shortcuts import redirect, render
+from django.http import HttpResponse, HttpResponseRedirect
 
 from .forms import BillingForm, PaymentForm, ShippingForm
 from .cart import Cart
@@ -29,9 +29,8 @@ def update_cart(request, toy_id, action=None):
     toy = Toy.objects.get(pk=toy_id)
     quantity = cart.get_item(toy_id)['quantity']
 
-    item = {
+    cart_item = {
         'toy': {
-            'id': toy.id,
             'title': toy.title,
             'price': toy.price,
             'stock': toy.stock,
@@ -40,10 +39,11 @@ def update_cart(request, toy_id, action=None):
             },
         },
         'quantity': quantity,
+        'id': toy_id,
         'total_price': toy.price * quantity,
     }
 
-    response = render(request, 'cart/partials/cart_item.html', { 'item': item })
+    response = render(request, 'cart/partials/cart_item.html', { 'item': cart_item })
 
     response['HX-Trigger'] = 'update-menu-cart'
 
@@ -65,6 +65,26 @@ def checkout(request):
     shippingForm = ShippingForm()
     paymentForm = PaymentForm()
     cart = Cart(request)
+            
+    return render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm })
+
+def checkout_billing_form(request):
+    billingForm = BillingForm()
+    shippingForm = ShippingForm()
+    paymentForm = PaymentForm()
+    cart = Cart(request)
+
+    if request.method == 'POST':
+        print("Received POST request")
+        billingForm = BillingForm(request.POST)
+        if billingForm.is_valid():
+            billingFormComplete = True
+            request.session['billingForm'] = billingForm.cleaned_data
+            print("Cleaned data: ", request.session['billingForm'])
+            response = render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm, 'billingFormComplete': billingFormComplete })
+            return response
+
+            
     return render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm })
 
 
