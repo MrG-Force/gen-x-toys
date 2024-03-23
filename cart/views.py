@@ -1,3 +1,4 @@
+import time
 from django.shortcuts import redirect, render
 from django.http import HttpResponse, HttpResponseRedirect
 
@@ -15,7 +16,7 @@ def add_to_cart(request, toy_id):
 
 def cart(request):
     cart = Cart(request)
-    return render(request, 'cart/cart.html', { 'cart': cart })
+    return render(request, 'cart/cart.html', {'cart': cart})
 
 
 def update_cart(request, toy_id, action=None):
@@ -43,7 +44,8 @@ def update_cart(request, toy_id, action=None):
         'total_price': toy.price * quantity,
     }
 
-    response = render(request, 'cart/partials/cart_item.html', { 'item': cart_item })
+    response = render(request, 'cart/partials/cart_item.html',
+                      {'item': cart_item})
 
     response['HX-Trigger'] = 'update-menu-cart'
 
@@ -60,33 +62,35 @@ def delete_item(request, toy_id):
 
     return response
 
+
 def checkout(request):
     billingForm = BillingForm()
     shippingForm = ShippingForm()
     paymentForm = PaymentForm()
     cart = Cart(request)
-            
-    return render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm })
 
-def checkout_billing_form(request):
-    billingForm = BillingForm()
-    shippingForm = ShippingForm()
-    paymentForm = PaymentForm()
-    cart = Cart(request)
+    return render(request, 'cart/checkout.html', {'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm})
 
+
+def hx_checkout_billing_form(request):
+    billingFormCompleted = False
     if request.method == 'POST':
-        print("Received POST request")
         billingForm = BillingForm(request.POST)
         if billingForm.is_valid():
-            billingFormComplete = True
+            billingFormCompleted = True
             request.session['billingForm'] = billingForm.cleaned_data
             print("Cleaned data: ", request.session['billingForm'])
-            response = render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm, 'billingFormComplete': billingFormComplete })
+            response = render(request, 'cart/forms/billing_form.html', {'billingForm': billingForm, 'billingFormCompleted': billingFormCompleted})
+            response['HX-Trigger'] = 'billing-form-completed'
+            time.sleep(2)
             return response
 
-            
-    return render(request, 'cart/checkout.html', { 'cart': cart, 'billingForm': billingForm, 'shippingForm': shippingForm, 'paymentForm': paymentForm })
+    return render(request, 'cart/forms/billing_form.html', {'cart': cart, 'billingForm': billingForm, 'billingFormComplete': billingFormCompleted})
 
+def hx_billing_form_completed(request):
+    print("Billing form completed event triggered and handled.")
+    billingFormCompleted = True
+    return render(request, 'cart/partials/chevron.html', {'billingFormCompleted': billingFormCompleted})
 
 def hx_menu_cart(request):
     return render(request, 'cart/menu_cart.html')

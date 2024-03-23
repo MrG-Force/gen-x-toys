@@ -1,0 +1,20 @@
+{% load form_tags %} 
+<form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 {% if not billingFormCompleted %}hidden{% endif %}" id="shippingSectionContent" novalidate>
+    {% csrf_token %}
+    <div class="flex flex-row justify-between">
+        {% form_field shippingForm.first_name "w-1/2 fieldWrapper" %}
+        {% form_field shippingForm.last_name "w-1/2 pl-4 fieldWrapper" %}
+    </div>
+    <div class="flex flex-row justify-between">
+        {% form_field shippingForm.street_address "w-3/4 fieldWrapper" %}
+        {% form_field shippingForm.unit_apt "w-1/4 pl-4 fieldWrapper" %}
+    </div>
+    <div class="flex flex-row justify-between pb-2">
+        {% form_field shippingForm.suburb "w-2/4 fieldWrapper" %}
+        {% form_field shippingForm.state "w-1/4 pl-4 fieldWrapper" "* Please select your " %}
+        {% form_field shippingForm.postcode "w-1/4 pl-4 fieldWrapper" %}
+    </div>
+    <div class="flex w-full justify-end">
+        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
+    </div>
+</form>

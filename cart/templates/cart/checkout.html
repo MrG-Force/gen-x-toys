@@ -61,39 +61,17 @@
         {% endif %}
 
         <div class="container w-full my-2">
-            <div class="section bg-gray-100 rounded-md mb-2 {% if billingFormComplete %}completed{% endif %}" id="billingSection">
+            {% comment %} --- Biling Section --- {% endcomment %}
+            <div class="section bg-gray-100 rounded-md mb-2" id="billingSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="billingSectionHeader">
                     <h2 class="uppercase text-lg font-semibold text-indigo-800">Billing</h2>
                     <button type="button" class="accordion-toggle" data-target="billingSectionContent">
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="chevron w-6 h-6 stroke-violet-600 rotate-90">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
+                        {% include 'cart/partials/chevron.html' %}
                     </button>
                 </div>
 
-                <form method="post" action="checkout_billing_form" class="flex flex-col bg-gray-100 py-2 px-4" id="billingSectionContent" novalidate>
-                    {% csrf_token %}
-                    <div class="flex flex-row justify-between">
-                        {% form_field billingForm.first_name "w-1/2 fieldWrapper" %}
-                        {% form_field billingForm.last_name "w-1/2 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex flex-row justify-between">
-                        {% form_field billingForm.street_address "w-3/4 fieldWrapper" %}
-                        {% form_field billingForm.unit_apt "w-1/4 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex flex-row justify-between">
-                        {% form_field billingForm.suburb "w-2/4 fieldWrapper" %}
-                        {% form_field billingForm.state "w-1/4 pl-4 fieldWrapper" "* Please select your " %}
-                        {% form_field billingForm.postcode "w-1/4 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex flex-row justify-between pb-2">
-                        {% form_field billingForm.email "w-1/2 fieldWrapper" "* Please enter a valid " %}
-                        {% form_field billingForm.phone "w-1/2 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex flex-row w-full justify-end">
-                        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
-                    </div>
-                </form>
+                {% include 'cart/forms/billing_form.html' %}
+                
             </div>
             <div class="bg-gray-100 rounded-md mb-2 section" id="shippingSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="shippingSectionHeader">

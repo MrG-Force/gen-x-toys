@@ -1,5 +1,7 @@
 {% load form_tags %} 
-<form hx-post="{% url 'checkout' %}" hx-swap="outerHTML" class="flex flex-col bg-gray-100 py-2 px-4" id="billingSectionContent" novalidate>
+<form hx-post="{% url 'hx_checkout_billing_form' %}" hx-swap="outerHTML" 
+class="{% if billingFormCompleted %}hidden{% endif %} flex flex-col bg-gray-100 py-2 px-4" 
+id="billingSectionContent" novalidate>
     {% csrf_token %}
     <div class="flex flex-row justify-between">
         {% form_field billingForm.first_name "w-1/2 fieldWrapper" %}
@@ -19,6 +21,6 @@
         {% form_field billingForm.phone "w-1/2 pl-4 fieldWrapper" %}
     </div>
     <div class="flex flex-row w-full justify-end">
-        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
+        <button id="billing-form-next" class="next-btn w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-gray-300 text-gray-500" disabled>Next</button>
     </div>
 </form>
