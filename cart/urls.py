@@ -1,6 +1,6 @@
 from django.urls import path
 
-from cart.views import add_to_cart, cart, delete_item, update_cart, checkout, hx_checkout_billing_form, hx_menu_cart, hx_cart_total, hx_checkout_btn, hx_cart_items, hx_billing_form_completed
+from cart.views import add_to_cart, cart, delete_item, hx_checkout_fill_shipping_from_billing, hx_checkout_shipping_form, update_cart, checkout, hx_checkout_billing_form, hx_menu_cart, hx_cart_total, hx_checkout_btn, hx_cart_items, hx_billing_form_completed
 
 urlpatterns = [
     path('add_to_cart/<str:toy_id>/', add_to_cart, name='add_to_cart'),
@@ -9,6 +9,8 @@ urlpatterns = [
     path('cart/checkout', checkout, name='checkout'),
     path('cart/hx_checkout_billing_form', hx_checkout_billing_form, name='hx_checkout_billing_form'),
     path('cart/hx_billing_form_completed', hx_billing_form_completed, name='hx_billing_form_completed'),
+    path('cart/hx_checkout_shipping_form', hx_checkout_shipping_form, name='hx_checkout_shipping_form'),
+    path('cart/hx_fill_shipping_from_billing', hx_checkout_fill_shipping_from_billing, name='hx_fill_shipping_from_billing'),
     path('delete_item/<str:toy_id>/', delete_item, name='delete_item'),
     path('hx_menu_cart/', hx_menu_cart, name='hx_menu_cart'),
     path('hx_cart_total/', hx_cart_total, name='hx_cart_total'),

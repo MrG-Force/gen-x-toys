@@ -60,49 +60,11 @@
         </div>
         {% endif %}
 
-        <div class="container w-full my-2">
+        <div class="container w-full my-2" id="checkout-form-container">
             {% comment %} --- Biling Section --- {% endcomment %}
-            <div class="section bg-gray-100 rounded-md mb-2" id="billingSection">
-                <div class="flex justify-between bg-gray-100 p-2" id="billingSectionHeader">
-                    <h2 class="uppercase text-lg font-semibold text-indigo-800">Billing</h2>
-                    <button type="button" class="accordion-toggle" data-target="billingSectionContent">
-                        {% include 'cart/partials/chevron.html' %}
-                    </button>
-                </div>
-
-                {% include 'cart/forms/billing_form.html' %}
-                
-            </div>
-            <div class="bg-gray-100 rounded-md mb-2 section" id="shippingSection">
-                <div class="flex justify-between bg-gray-100 p-2" id="shippingSectionHeader">
-                    <h2 class="uppercase text-lg font-semibold text-gray-400">Shipping</h2>
-                    <button type="button" class="accordion-toggle" data-target="shippingSectionContent" {% if not billingFormComplete %}disabled{% endif %}>
-                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" 
-                        class="{% if not billingFormComplete %}chevron w-6 h-6 stroke-gray-400 {% else %}chevron w-6 h-6 stroke-violet-600 rotate-90{% endif %}">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="m8.25 4.5 7.5 7.5-7.5 7.5" />
-                        </svg>
-                    </button>
-                </div>
-                <form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 {% if not billingFormComplete %}hidden{% endif %}" id="shippingSectionContent">
-                    {% csrf_token %}
-                    <div class="flex flex-row justify-between">
-                        {% form_field shippingForm.first_name "w-1/2 fieldWrapper" %}
-                        {% form_field shippingForm.last_name "w-1/2 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex flex-row justify-between">
-                        {% form_field shippingForm.street_address "w-3/4 fieldWrapper" %}
-                        {% form_field shippingForm.unit_apt "w-1/4 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex flex-row justify-between pb-2">
-                        {% form_field shippingForm.suburb "w-2/4 fieldWrapper" %}
-                        {% form_field shippingForm.state "w-1/4 pl-4 fieldWrapper" "* Please select your " %}
-                        {% form_field shippingForm.postcode "w-1/4 pl-4 fieldWrapper" %}
-                    </div>
-                    <div class="flex w-full justify-end">
-                        <button type="submit" class="w-1/4 px-4 py-2 mt-2 mb-2 rounded-xl bg-purple-500 hover:bg-purple-700 text-white">Next</button>
-                    </div>
-                </form>
-            </div>
+            {% include "cart/checkout/billing_section.html" %}
+            {% comment %} --- Shipping Section --- {% endcomment %}
+            {% include "cart/checkout/shipping_section.html" %}
             <div class="bg-gray-100 rounded-md mb-2 section" id="paymentSection">
                 <div class="flex justify-between bg-gray-100 p-2" id="paymentSectionHeader">
                     <h2 class="uppercase text-lg font-semibold text-gray-400">Payment</h2>

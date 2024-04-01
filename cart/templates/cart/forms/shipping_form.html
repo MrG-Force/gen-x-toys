@@ -1,6 +1,20 @@
 {% load form_tags %} 
-<form method="post" action="." class="flex flex-col bg-gray-100 py-2 px-4 {% if not billingFormCompleted %}hidden{% endif %}" id="shippingSectionContent" novalidate>
+<form class="flex flex-col bg-gray-100 py-2 px-4 {% if not billingFormCompleted %} hidden {% endif %}" 
+    id="shippingSectionContent"
+    hx-post="{% url 'hx_checkout_shipping_form' %}" 
+    hx-target="#shippingSection"
+    hx-swap="outerHTML" novalidate>
     {% csrf_token %}
+    <div class="flex items-center mb-4">
+        <input type="checkbox" id="sameAsBillingCheckbox" class="mr-2"
+               hx-get="{% url 'hx_fill_shipping_from_billing' %}" 
+               hx-vals='js:{sameAsBilling: event.target.checked}'
+               hx-target="#shippingSectionContent"
+               hx-trigger="change"
+               hx-swap="outerHTML"
+               {% if sameAsBilling %} checked {% endif %}>
+        <label for="sameAsBillingCheckbox">Same as billing address</label>
+    </div>
     <div class="flex flex-row justify-between">
         {% form_field shippingForm.first_name "w-1/2 fieldWrapper" %}
         {% form_field shippingForm.last_name "w-1/2 pl-4 fieldWrapper" %}

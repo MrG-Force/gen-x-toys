@@ -80,17 +80,46 @@ def hx_checkout_billing_form(request):
             billingFormCompleted = True
             request.session['billingForm'] = billingForm.cleaned_data
             print("Cleaned data: ", request.session['billingForm'])
-            response = render(request, 'cart/forms/billing_form.html', {'billingForm': billingForm, 'billingFormCompleted': billingFormCompleted})
+            response = render(request, 'cart/checkout/billing_section.html', {'billingForm': billingForm, 'billingFormCompleted': billingFormCompleted})
             response['HX-Trigger'] = 'billing-form-completed'
-            time.sleep(2)
+            time.sleep(1)
             return response
 
     return render(request, 'cart/forms/billing_form.html', {'cart': cart, 'billingForm': billingForm, 'billingFormComplete': billingFormCompleted})
 
 def hx_billing_form_completed(request):
     print("Billing form completed event triggered and handled.")
+    shippingForm = ShippingForm()
     billingFormCompleted = True
-    return render(request, 'cart/partials/chevron.html', {'billingFormCompleted': billingFormCompleted})
+    return render(request, 'cart/checkout/shipping_section.html', {'billingFormCompleted': billingFormCompleted, 'shippingForm': shippingForm})
+
+def hx_checkout_shipping_form(request):
+    shippingFormCompleted = False
+    if request.method == 'POST':
+        print(f"hx_checkout_shipping_form received POST request: {request.POST}")
+        shippingForm = ShippingForm(request.POST)
+        if shippingForm.is_valid():
+            shippingFormCompleted = True
+            request.session['shippingForm'] = shippingForm.cleaned_data
+            print("Cleaned data: ", request.session['shippingForm'])
+            response = render(request, 'cart/checkout/shipping_section.html', {'shippingForm': shippingForm, 'shippingFormCompleted': shippingFormCompleted})
+            response['HX-Trigger'] = 'shipping-form-completed'
+            time.sleep(1)
+            return response
+
+    return render(request, 'cart/forms/shipping_form.html', {'cart': cart, 'shippingForm': shippingForm, 'shippingFormComplete': shippingFormCompleted})
+
+def hx_checkout_fill_shipping_from_billing(request):
+    billingForCompleted = True
+    same_as_billing = request.GET.get('sameAsBilling') == 'true'
+    print(f"same_as_billing: {same_as_billing}")
+
+    if same_as_billing:
+        shippingForm = ShippingForm(request.session['billingForm'])
+    else:
+        shippingForm = ShippingForm()
+
+    return render(request, 'cart/forms/shipping_form.html', {'shippingForm': shippingForm, 'billingFormCompleted': billingForCompleted, 'sameAsBilling': same_as_billing})
 
 def hx_menu_cart(request):
     return render(request, 'cart/menu_cart.html')
