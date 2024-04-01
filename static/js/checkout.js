@@ -81,6 +81,7 @@ function initializeFormValidation() {
                 htmx.trigger(this, 'htmx:abort');
             }
         });
+        
     });
 }
 
@@ -109,5 +110,22 @@ document.addEventListener('DOMContentLoaded', function () {
 htmx.onLoad(function () {
     console.log("htmx:onLoad event fired. Re-initializing form validation.");
     initializeFormValidation();
+
+    var toggleButtons = document.querySelectorAll('.accordion-toggle');
+    toggleButtons.forEach(function (button) {
+        button.addEventListener('click', toggleAccordion);
+    });
+
+    // htmx.on('#checkout-form-container', 'billing-form-completed', function (e) {
+    //     console.log('billing-form-completed event fired and received by #checkout-form-container');
+    //     document.getElementById('shippingSectionContent').classList.remove('hidden');
+    //     const button = document.getElementById('shippingSection').querySelector('.accordion-toggle');
+    //     button.removeAttribute('disabled');
+    //     const header = document.getElementById('shippingSectionHeader');
+    //     header.querySelector('h2').classList.remove('text-gray-400');
+    //     header.querySelector('h2').classList.add('text-indigo-800');
+    //     header.querySelector('.chevron').classList.remove('stroke-gray-400');
+    //     header.querySelector('.chevron').classList.add('stroke-violet-600', 'rotate-90');
+    // });
 });
 
