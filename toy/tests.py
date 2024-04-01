@@ -18,11 +18,11 @@ class ToyModelTest(TestCase):
         self.category = Category.objects.create(name='Action Figures')
         
         
-    def test_string_representation(self):
+    def test_toy_str_returns_title(self):
         toy = Toy(title="Toy One", category=self.category, price=10.99, stock=5)
         self.assertEqual(str(toy), "Toy One")
 
-    def test_field_types(self):
+    def test_toy_field_types_are_as_expected(self):
         toy = Toy.objects.create(
             title="Toy Two", category=self.category, price=10.99, stock=5, created_by=self.user
         )
@@ -33,7 +33,7 @@ class ToyModelTest(TestCase):
 
         toy.delete()
         
-    def test_object_creation(self):
+    def test_can_add_a_new_toy(self):
         toy = Toy.objects.create(
             title="Toy Three", category=self.category, price=10.99, stock=5, created_by=self.user
         )
@@ -53,23 +53,23 @@ class ToyDetailViewTests(TestCase):
         self.toy4 = Toy.objects.create(title="Toy4", category=self.category, price=15.99, stock=6, created_by=self.user)
         self.toy5 = Toy.objects.create(title="Toy5", category=self.category, price=16.99, stock=7, created_by=self.user)
 
-    def test_get_valid_toy(self):
+    def test_detail_view_with_valid_toy_id_shows_correct_toy(self):
         response = self.client.get(reverse('toy:detail', args=[self.toy1.pk]))
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.context['toy'], self.toy1)
 
-    def test_get_invalid_toy(self):
+    def test_detail_view_with_invalid_toy_id_returns_404(self):
         response = self.client.get(reverse('toy:detail', args=[9999]))
         self.assertEqual(response.status_code, 404)
 
-    def test_related_toys(self):
+    def test_toy_detail_returns_set_with_related_toys(self):
         response = self.client.get(reverse('toy:detail', args=[self.toy1.pk]))
-        self.assertQuerysetEqual(
+        self.assertQuerySetEqual(
             response.context['related_toys'],
             [self.toy5, self.toy4, self.toy2],
             ordered=False
         )
 
-    def test_template_used(self):
+    def test_toy_detail_uses_the_correct_template(self):
         response = self.client.get(reverse('toy:detail', args=[self.toy1.pk]))
         self.assertTemplateUsed(response, 'toy/detail.html')
